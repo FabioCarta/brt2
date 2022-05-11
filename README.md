@@ -42,4 +42,5 @@ See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-
 
 # Ideas
 
-![](C:\Users\fcart\Downloads\linkslist ideas.png)
+![linkslist ideas](https://user-images.githubusercontent.com/8994497/167894923-b3fdb3fa-610d-43ee-a403-6479f9664634.png)
+
