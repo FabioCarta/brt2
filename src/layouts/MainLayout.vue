@@ -8,7 +8,7 @@
           round
           icon="menu"
           aria-label="Menu"
-          color=dark
+          color="dark"
           @click="toggleLeftDrawer"
         />
 
@@ -16,21 +16,20 @@
           BRT 2.0
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <q-toggle
+          v-model="dark"
+          size="3.2rem"
+          @update:model-value="switchColorScheme"
+          checked-icon="dark_mode"
+          color="dark"
+          unchecked-icon="light_mode"
+        />
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label
-          header
-        >
-          Willkommen! 👋
-        </q-item-label>
+        <q-item-label header> Willkommen! 👋 </q-item-label>
 
         <EssentialLink
           v-for="link in essentialLinks"
@@ -49,45 +48,72 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import EssentialLink from 'components/EssentialLink.vue';
+import { useQuasar } from 'quasar';
 
 const linksList = [
   {
     title: 'Home',
-    caption: "*wave*",
+    caption: '*wave*',
     icon: 'home',
-    link: '/pages/PageHome'
+    link: '/pages/PageHome',
   },
   {
     title: 'LogIn',
     caption: 'LogIn / Register',
     icon: 'key',
-    link: '#/Login'
+    link: '#/Login',
   },
   {
-    title: 'Github',
-    caption: 'github.com/2TISSUES/brt2.0',
-    icon: 'code',
-    link: 'https://github.com/2TISSUES/brt2.0'
-  }
+    title: 'Shifts',
+    caption: 'Edit Shifts',
+    icon: 'work_history',
+    link: '#/Shifts',
+  },
+  {
+    title: 'Summary',
+    caption: 'Yearly Summary',
+    icon: 'calendar_month',
+    link: '#/Summary',
+  },
+  {
+    title: 'Profile',
+    caption: 'Profile & Settings',
+    icon: 'person',
+    link: '#/Profile',
+  },
+  {
+    title: 'Logout',
+    icon: 'logout',
+    link: '#/Login',
+  },
 ];
 
 export default defineComponent({
   name: 'MainLayout',
 
   components: {
-    EssentialLink
+    EssentialLink,
   },
 
-  setup () {
-    const leftDrawerOpen = ref(false)
+  setup() {
+    const leftDrawerOpen = ref(false);
+    const dark = ref(true);
+    const $q = useQuasar();
+
+    // function to swtich between light (false) and dark mode (true)
+    const switchColorScheme = () => {
+      $q.dark.toggle();
+    };
 
     return {
       essentialLinks: linksList,
       leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
-    }
-  }
+      toggleLeftDrawer() {
+        leftDrawerOpen.value = !leftDrawerOpen.value;
+      },
+      dark,
+      switchColorScheme,
+    };
+  },
 });
 </script>

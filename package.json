@@ -2,7 +2,7 @@
   "name": "package",
   "version": "0.0.1",
   "description": "brt's work/time management app",
-  "productName": "brt",
+  "productName": "BRT 2.0",
   "author": "Thanh Phong Pham (ai1811) <thanh_phong.pham@smail.th-koeln.de>",
   "private": true,
   "scripts": {
