@@ -2,7 +2,7 @@
   <img src="~assets/wave-haikei.svg" class="wave" alt="login-wave" />
   <div class="row" style="height: 90vh">
     <div class="col-0 col-md-6 flex justify-center content-center">
-      <img src="~assets/schedule.svg" class="responsive" alt="login-image" />
+      <img src="~assets/login.svg" class="responsive" alt="login-image" />
     </div>
     <div
       :class="{
