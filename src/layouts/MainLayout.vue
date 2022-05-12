@@ -55,7 +55,7 @@ const linksList = [
     title: 'Home',
     caption: '*wave*',
     icon: 'home',
-    link: '/pages/PageHome',
+    link: '#/Home',
   },
   {
     title: 'LogIn',
