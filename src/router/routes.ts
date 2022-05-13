@@ -1,7 +1,4 @@
-import { RouteRecordRaw, useRouter } from 'vue-router';
-import {getAuth} from "firebase/auth";
-
-const router = useRouter();
+import { RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -30,7 +27,7 @@ const routes: RouteRecordRaw[] = [
     ],
     meta: {
       requiresAuth: true,
-    }
+    },
   },
   // Always leave this as last one,
   // but you can also remove it
@@ -39,7 +36,5 @@ const routes: RouteRecordRaw[] = [
     component: () => import('pages/ErrorNotFound.vue'),
   },
 ];
-
-
 
 export default routes;
