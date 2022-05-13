@@ -1,65 +1,32 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    <div>
-      <q-date
-        text-color="dark"
-        v-model="days"
-        multiple
-        :today-btn="true"
-        mask="dddd, DD.MM.YYYY"
-      />
-    </div>
-    <div class="column">
-      <div v-for="(day, index) in days" :key="index" class="col-1">
-        <q-btn-dropdown
-          :glossy="true"
-          color="primary"
-          :label="day"
-          text-color="dark"
-          class="fixed-width"
-          @click="handleDropdown"
-        >
-          <q-list>
-            <q-item
-              v-for="(time, index) in times"
-              :key="index"
-              clickable
-              v-close-popup
-              @click="onItemClick(day, time)"
-            >
-              <q-item-section>
-                <q-item-label>{{ time }}</q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-btn-dropdown>
-      </div>
-    </div>
+  <q-page class="column items-center justify-center">
+    <h2>Termine eintragen</h2>
+    <h6>Beispiele von erlaubten Formaten:</h6>
+    <p>mo6 di8 do15 sa10</p>
+    <date-time-picker @add-to-dates="addToDates"></date-time-picker>
+    {{ shiftsArray }}
   </q-page>
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
+import DateTimePicker from '../components/dateTimePicker.vue';
 
 export default defineComponent({
   name: 'WorkShifts',
-
   setup() {
-    const days = ref([]);
-    const times = ['06:00', '08:00', '10:00', '15:00'];
+    const shiftsArray = ref([]);
 
-    const onItemClick = (day, time) => {
-      console.log('hello');
+    const addToDates = (dates) => {
+      const datesArray = dates.split(' ');
+      datesArray.forEach((element) => {
+        shiftsArray.value.push(element);
+      });
     };
 
-    const handleDropdown = () => {
-      const dayLabel = event.target.innerHTML;
-      const index = days.value.findIndex((day) => day === dayLabel);
-      return index;
-    };
-
-    return { days, times, handleDropdown, onItemClick };
+    return { shiftsArray, addToDates };
   },
+  components: { DateTimePicker },
 });
 </script>
 

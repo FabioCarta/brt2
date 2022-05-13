@@ -67,7 +67,7 @@ const linksList = [
     title: 'Shifts',
     caption: 'Edit Shifts',
     icon: 'work_history',
-    link: '#/Shifts',
+    link: '#/home/work-shifts',
   },
   {
     title: 'Summary',
