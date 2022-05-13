@@ -35,7 +35,8 @@
                 color="primary"
                 label="Login :)"
                 rounded
-                type="a" href="/#/home"
+                type="a"
+                href="/#/home"
               ></q-btn>
               <div class="text-center q-mt-sm q-gutter-lg">
                 <router-link class="text-white" to="/login"
