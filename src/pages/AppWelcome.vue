@@ -23,6 +23,8 @@
             >
               BRT 2.0 ist das perfekte Tool um sicherzustellen, dass dein
               Arbeitgeber dich nicht über den Tisch zieht!
+
+              <br><br>von sklaven - für sklaven!
             </h6>
             <q-separator />
             <q-card-actions class="row justify-center full-width">
