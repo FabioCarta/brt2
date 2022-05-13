@@ -4,9 +4,14 @@ import {
   createRouter,
   createWebHashHistory,
   createWebHistory,
+  useRouter
 } from 'vue-router';
 
 import routes from './routes';
+import {getAuth} from "firebase/auth";
+
+
+const router = useRouter();
 
 /*
  * If not building with SSR mode, you can
@@ -16,6 +21,20 @@ import routes from './routes';
  * async/await or return a Promise which resolves
  * with the Router instance.
  */
+
+router.beforeEach((to,from,next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if(getAuth().currentUser){
+      next();
+    } else {
+      alert("you dont have access")
+      next('/');
+    }
+  } else {
+    next();
+  }
+});
+
 
 export default route(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
@@ -31,6 +50,9 @@ export default route(function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE),
   });
+
+
+
 
   return Router;
 });

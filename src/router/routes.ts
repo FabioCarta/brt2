@@ -1,4 +1,7 @@
-import { RouteRecordRaw } from 'vue-router';
+import { RouteRecordRaw, useRouter } from 'vue-router';
+import {getAuth} from "firebase/auth";
+
+const router = useRouter();
 
 const routes: RouteRecordRaw[] = [
   {
@@ -14,6 +17,10 @@ const routes: RouteRecordRaw[] = [
     component: () => import('src/pages/AppWelcome.vue'),
   },
   {
+    path: '/register',
+    component: () => import('src/components/RegisterComponent.vue'),
+  },
+  {
     path: '/home',
     component: () => import('layouts/MainLayout.vue'),
     children: [
@@ -21,6 +28,9 @@ const routes: RouteRecordRaw[] = [
       { path: 'work-shifts', component: () => import('pages/WorkShifts.vue') },
       { path: 'summary', component: () => import('pages/WorkSummary.vue') },
     ],
+    meta: {
+      requiresAuth: true,
+    }
   },
   // Always leave this as last one,
   // but you can also remove it
@@ -29,5 +39,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('pages/ErrorNotFound.vue'),
   },
 ];
+
+
 
 export default routes;

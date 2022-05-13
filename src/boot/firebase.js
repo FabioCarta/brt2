@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app';
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAUzaoy_HyRrshXB7HvfzaajkHsxP4n8Ig',
@@ -11,3 +12,5 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 
+// Initialize Firebase Authentication and get a reference to the service
+const auth = getAuth(app);
