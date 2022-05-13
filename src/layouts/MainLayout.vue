@@ -16,6 +16,10 @@
           BRT 2.0
         </q-toolbar-title>
 
+        <p v-if="loggedIn" >Eingeloggt als: {{ status.currentUser.email }}</p>
+
+
+
         <q-toggle
           v-model="dark"
           size="3.2rem"
@@ -36,6 +40,12 @@
           :key="link.title"
           v-bind="link"
         />
+        <EssentialLink
+          v-if="loggedIn"
+          v-bind="logout"
+          @click="handleSignOut"
+        />
+
       </q-list>
     </q-drawer>
 
@@ -46,9 +56,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 import EssentialLink from 'components/EssentialLink.vue';
 import { useQuasar } from 'quasar';
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { useRouter } from "vue-router";
+
 
 const linksList = [
   {
@@ -80,13 +93,14 @@ const linksList = [
     caption: 'Profile & Settings',
     icon: 'person',
     link: '#/Profile',
-  },
-  {
+  }];
+  const logout = {
     title: 'Logout',
+    caption: 'goodbye',
     icon: 'logout',
-    link: '#/Login',
-  },
-];
+    link: '#/welcome',
+  }
+
 
 export default defineComponent({
   name: 'MainLayout',
@@ -99,11 +113,38 @@ export default defineComponent({
     const leftDrawerOpen = ref(false);
     const dark = ref(true);
     const $q = useQuasar();
+    const status = ref(getAuth())
+    const loggedIn = ref(false)
+    const router = useRouter()
+
+    let auth;
+
+
+
+    onMounted(() => {
+
+      auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          loggedIn.value = true;
+        } else {
+          loggedIn.value = false;
+        }
+      });
+    });
+
+    const handleSignOut = () => {
+      signOut(auth).then(() => {
+        router.push('/welcome');
+      })
+    }
 
     // function to swtich between light (false) and dark mode (true)
     const switchColorScheme = () => {
       $q.dark.toggle();
     };
+
+
 
     return {
       essentialLinks: linksList,
@@ -113,6 +154,11 @@ export default defineComponent({
       },
       dark,
       switchColorScheme,
+      status,
+      loggedIn,
+      logout,
+      handleSignOut,
+
     };
   },
 });

@@ -26,25 +26,24 @@
           </div>
         </q-card-section>
         <q-card-section>
-          <q-form class="q-gutter-md" @submit.prevent="submitForm">
-            <q-input label="Username"> </q-input>
-            <q-input label="Password" type="password"> </q-input>
+          <q-form class="q-gutter-md" @submit.prevent="login">
+            <q-input label="E-Mail" type="email" v-model="email"> </q-input>
+
+            <q-input label="Password" type="password" v-model="password"> </q-input>
             <div>
               <q-btn
                 class="full-width"
                 color="primary"
                 label="Login :)"
+                type="submit"
                 rounded
-                type="a"
-                href="/#/home"
               ></q-btn>
               <div class="text-center q-mt-sm q-gutter-lg">
                 <router-link class="text-white" to="/login"
                   >Password vergessen?</router-link
                 >
-                <router-link class="text-white" to="/login"
-                  >Konto anlegen</router-link
-                >
+                <router-link class="text-white" to="/register"
+                  >Konto anlegen</router-link>
               </div>
             </div>
           </q-form>
@@ -55,17 +54,33 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
+import {signInWithEmailAndPassword, getAuth} from "firebase/auth";
+import { useRouter } from 'vue-router';
+
 
 export default defineComponent({
-  name: 'ErrorNotFound',
+  name: 'AppLogin',
 
   setup() {
-    const submitForm = () => {
-      console.log('submitted');
+
+    const email = ref('');
+    const password = ref('');
+    const router = useRouter()
+
+    const login = () => {
+      signInWithEmailAndPassword(getAuth(), email.value, password.value)
+        .then((data) => {
+          console.log("success")
+          router.push('/home/work-shifts')
+        })
+        .catch((error) => {
+          console.log(error.code);
+          alert(error.message);
+        });
     };
 
-    return { submitForm };
+    return { login, email, password };
   },
 });
 </script>
