@@ -42,9 +42,13 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { useRouter } from 'vue-router';
+import {  defineComponent, ref } from 'vue';
+import {  getAuth,
+          createUserWithEmailAndPassword,
+          sendEmailVerification,
+
+          } from "firebase/auth";
+import {  useRouter } from 'vue-router';
 
 
 export default defineComponent({
@@ -60,17 +64,35 @@ export default defineComponent({
     const register = () => {
       createUserWithEmailAndPassword(getAuth(), email.value, password.value)
         .then((data) => {
-        console.log("success")
-          router.push('/home/work-shifts')
+          const user = getAuth().currentUser;
+
+          const actionCodeSettings = {
+            url: `https://brt2.tech/#/home/profile/`,
+          };
+          //const auth = getAuth();
+          sendEmailVerification(user, actionCodeSettings);
+          router.push('/emailverification')
+          // user.sendEmailVerification(actionCodeSettings);
+
+
+/*          console.log(user);
+          console.log("success")
+          router.push('/home/work-shifts')*/
       })
         .catch((error) => {
             console.log(error.code);
             alert(error.message);
         });
     };
+
+
     return { register, email, password };
   },
 });
+
+
+
+
 </script>
 
 <style scoped>

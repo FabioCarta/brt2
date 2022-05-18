@@ -26,7 +26,7 @@
           </div>
         </q-card-section>
         <q-card-section>
-          <q-form class="q-gutter-md" @submit.prevent="login">
+          <q-form class="q-gutter-md" @submit.prevent="login2">
             <q-input label="E-Mail" type="email" v-model="email"> </q-input>
 
             <q-input label="Password" type="password" v-model="password"> </q-input>
@@ -34,10 +34,21 @@
               <q-btn
                 class="full-width"
                 color="primary"
+                outline
                 label="Login :)"
                 type="submit"
                 rounded
+                outline-style="color: red"
               ></q-btn>
+
+              <q-btn
+                class="full-width q-mt-sm"
+                color="blue"
+                label="Login with Google"
+                rounded
+                @click="signInWithGoogle"
+              ></q-btn>
+
               <div class="text-center q-mt-sm q-gutter-lg">
                 <router-link class="text-white" to="/login"
                   >Password vergessen?</router-link
@@ -55,7 +66,13 @@
 
 <script>
 import { defineComponent, ref } from 'vue';
-import {signInWithEmailAndPassword, getAuth} from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  sendEmailVerification
+} from "firebase/auth";
 import { useRouter } from 'vue-router';
 
 
@@ -76,11 +93,41 @@ export default defineComponent({
         })
         .catch((error) => {
           console.log(error.code);
-          alert(error.message);
+          alert(error.message + "\n\nFehlerhafte Zugangsdaten, bitte erneut probieren ");
         });
     };
 
-    return { login, email, password };
+    const login2 = () => {
+      signInWithEmailAndPassword(getAuth(), email.value, password.value)
+      if(getAuth().currentUser.emailVerified){
+        console.log("success")
+        router.push('/home/work-shifts')
+      } else {
+        // console.log(error.code);
+        alert("Bitte bestätige deine E-Mail-Adresse");
+        const user = getAuth().currentUser;
+        const actionCodeSettings = {
+          url: `https://brt2.tech/#/home/profile/`,
+        };
+        //const auth = getAuth();
+        sendEmailVerification(user, actionCodeSettings);
+      }
+    };
+
+    const signInWithGoogle = () => {
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(getAuth(), provider)
+        .then((result) => {
+          console.log(result.user);
+          router.push("/home/work-shifts");
+        })
+        .catch((error) => {
+          console.log(error.code);
+          alert(error.message + "\n\nFehler, bitte erneut probieren ");
+        })
+    };
+
+    return { login, email, password, signInWithGoogle, login2};
   },
 });
 </script>
@@ -92,5 +139,9 @@ export default defineComponent({
   left: 0;
   bottom: 0;
   z-index: -1;
+}
+
+.googleBtn{
+  color: #4285F4;
 }
 </style>

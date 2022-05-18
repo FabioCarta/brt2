@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
@@ -14,9 +14,39 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter();
-    router.beforeEach((to, from, next) => {
+
+    const getCurrentUser = () => {
+      return new Promise((resolve, reject) => {
+        const removeListener = onAuthStateChanged(
+          getAuth(),
+          (user) => {
+            removeListener();
+            resolve(user);
+          },
+
+          reject
+        )
+      })
+    }
+
+/*    const getVerified = () => {
+      return new Promise((resolve, reject) => {
+        const removeListener = onAuthStateChanged(
+          getAuth().currentUser.emailVerified,
+          (verified) => {
+            removeListener();
+            resolve(verified);
+          },
+
+          reject
+        )
+      })
+    }*/
+
+
+    router.beforeEach(async(to, from, next) => {
       if (to.matched.some((record) => record.meta.requiresAuth)) {
-        if (getAuth().currentUser) {
+        if (await getCurrentUser()) {
           next();
         } else {
           alert('you dont have access');

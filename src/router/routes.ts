@@ -18,6 +18,10 @@ const routes: RouteRecordRaw[] = [
     component: () => import('src/components/RegisterComponent.vue'),
   },
   {
+    path: '/emailverification',
+    component: () => import('src/pages/AppEmailVerification.vue'),
+  },
+  {
     path: '/home',
     component: () => import('layouts/MainLayout.vue'),
     children: [
@@ -27,6 +31,7 @@ const routes: RouteRecordRaw[] = [
     ],
     meta: {
       requiresAuth: true,
+      requiresVerification: true,
     },
   },
   // Always leave this as last one,

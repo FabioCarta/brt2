@@ -2,7 +2,7 @@
   <img src="~assets/wave-haikei.svg" class="wave" alt="login-wave" />
   <div class="row" style="height: 90vh">
     <div class="col-1 col-md-6 flex justify-center content-center">
-      <img src="~assets/schedule.svg" class="responsive" alt="schedule-image" />
+      <img src="~assets/inbox.svg" class="responsive" alt="schedule-image" />
     </div>
     <div
       :class="{
@@ -13,21 +13,22 @@
       <q-card :style="$q.screen.lt.sm ? { width: '80%' } : { width: '50%' }">
         <q-card-section>
           <h1 class="welcomeText absolute-center q-mt-auto q-pb-lg">
-            Willkommen!
+            Email_gesendet!
           </h1>
         </q-card-section>
         <q-card-section>
           <div class="q-pa-md row items-center">
             <h6 class="text-h6 q-my-none text-weight-small q-mb-md description-text">
-              BRT 2.0 ist das perfekte Tool um sicherzustellen, dass dein
-              Arbeitgeber dich nicht über den Tisch zieht!
+              Wir haben dir eine Bestätigungs-E-Mail geschickt.
+              <br><br>
+              Bitte überprüfe dein Postfach und klicke den enthaltenen Link an, um deine E-Mail-Adresse zu bestätigen! <br><br>
             </h6>
               <br/><br/>
-            <h6 class="text-h6 q-my-none text-weight-small q-mb-md description-text text-italic">von sklaven - für sklaven!</h6>
+
             <q-separator />
             <q-card-actions class="row justify-center full-width">
-              <q-btn type="a" href="/#/login" class="self-center"  outline style="color: #ffcc00;"
-                >Lass mich rein!</q-btn
+              <q-btn type="a" href="/#/login" class="self-center"   outline style="color: #ffcc00;"
+                >Zurück</q-btn
               >
             </q-card-actions>
           </div>
@@ -69,6 +70,8 @@ export default defineComponent({
   stroke: white;
   stroke-width: 12px;
   paint-order: stroke;
+  font-size: 4rem;
+  size: landscape;
 }
 
 .description-text {
