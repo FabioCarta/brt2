@@ -1,4 +1,4 @@
-# brt (package)
+# brt
 
 brt's work/time management app
 
