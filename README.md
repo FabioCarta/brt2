@@ -1,6 +1,8 @@
 # brt
 
 brt's work/time management app
+used: quasar, firebase, google authentication
+
 
 ## Screenshots
 
